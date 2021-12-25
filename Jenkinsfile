@@ -12,9 +12,20 @@ pipeline {
         stage('docker build') {
             steps {
                 script {
+                      sh """
+                    java -version || true
+                    mvn -version || true
+                    docker -v || true
+                    """
                     docker.withRegistry('https://registry.hub.docker.com', 'publicdocker'){
-                        def iamge = docker.build("jangsp57/demo-springboot:v2")
-                        image.push();
+                        // def iamge = docker.build("jangsp57/demo-springboot:v2")
+                        // image.push();
+                        sh """
+                            pwd
+                            ls
+                            docker build -t jangsp57/demo-springboot:v2 .
+                            docker push jangsp57/demo-springboot:v2
+                        """
                     }
                   
                 }
