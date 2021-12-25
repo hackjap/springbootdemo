@@ -1,15 +1,29 @@
 pipeline {
     agent any
     stages {
-        stage('build') {
-            tools {
-                maven 'Maven 3.6.3'
-            }
-
+        stage('Test') {
             steps {
-                 sh "mvn clean package"
+                /* `make check` returns non-zero on test failures,
+                * using `true` to allow the Pipeline to continue nonetheless
+                */
+                sh 'make check || true' 
+                junit '**/target/*.xml' 
             }
         }
+
+        // stage('build') {
+
+            
+
+        //     tools {
+        //         maven 'Maven 3.6.3'
+        //     }
+
+
+        //     steps {
+        //          sh "mvn clean package"
+        //     }
+        // }
     }
 }   
 
