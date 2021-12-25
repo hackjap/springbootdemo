@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'publicdocker')
-                    iamge = docker.build("angsp57/demo-springboot:v2")
+                    iamge = docker.build("jangsp57/demo-springboot:v2")
                     image.push();
                 }
             }
