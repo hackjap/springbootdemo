@@ -11,19 +11,11 @@ pipeline {
         }
         stage('docker build') {
             steps {
-                // This step should not normally be used in your script. Consult the inline help for details.
-                withDockerRegistry(credentialsId: 'publicdocker', url: 'https://registry.hub.docker.com') {
-    
-                        sh "docker build -t jangsp57/demo-springboot:v2 ."
-                        sh "docker push jangsp57/demo-springboot:v2"
- 
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'publicdocker')
+                    def iamge = docker.build("jangsp57/demo-springboot:v2")
+                    image.push();
                 }
-                
-                // script {
-                //     docker.withRegistry('https://registry.hub.docker.com', 'publicdocker')
-                //     def iamge = docker.build("jangsp57/demo-springboot:v2")
-                //     image.push();
-                // }
             }
         }
     }
