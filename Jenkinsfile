@@ -37,7 +37,7 @@ pipeline {
                                 docker build -t jangsp57/demo-springboot:v2 .
                                 docker push jangsp57/demo-springboot:v2
                             """
-                        }
+                        }`
                     }
                 }
             }
