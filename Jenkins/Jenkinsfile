@@ -7,35 +7,25 @@ pipeline {
 
     // 환경변수 
     environment {
-        
         IMAGE = 'jangsp57/demo-springboot:v2'
         BRANCH = 'main'
-        APP = 'AdminApi'
+        APP = ''
         DOCKER_REGISTRY = 'https://registry.dockerhub.com' 
         CREDENTIAL_REGISTRY = 'publicdocker'
+
     }
-
     stages { 
-        // stage('Maven Build') {
-        //     steps {
-        //         container('maven-jdk-node'){
-        //             sh 'mvn -v'
-        //             sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
-        //             sh "ls -al ./AdminApi/target"
-        //             sh "pwd"
-        //         }
-        //     }
-        // }
-
-    // stage('Clone repository') {
-    //         steps {
-    //             git branch: "master",
-    //             credentialsId: 'github',
-    //             url: 'https://github.com/hackjap/springdemo.git'
-    //             sh 'ls -al'
-    //             sh 'pwd'
-    //         }
-    //     }
+        stage('Maven Build') {
+            steps {
+                container('maven-jdk-node'){
+                    sh 'mvn -v'
+                    // sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
+                    sh "mvn clean package"
+                    sh "ls -al ./${APP}target"
+                    sh "pwd"
+                }
+            }
+        }
         stage('Build Docker Image'){
             steps {
                 
@@ -49,7 +39,6 @@ pipeline {
                 }
             }
         }
-    
         stage('Push Docker Image') {
             steps {
                 container('docker'){                         
