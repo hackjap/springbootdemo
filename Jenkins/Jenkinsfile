@@ -54,10 +54,12 @@ pipeline {
             steps {
                 container('kubectl'){
                     sh '''
+                        kubectl delete deployment myapp -n test 
                         kubectl create deployment myapp --image=${IMAGE}
                         kubectl get pod 
                     '''
                 }
+                //  kubectl create deployment myapp --image=${IMAGE}
                   // sh "kubectl apply -n ${namespace} -f ${deployment}"
 					    // sh "sleep 5"
 					    // sh "kubectl apply -n ${namespace} -f ${service}"
