@@ -87,7 +87,7 @@ spec:
                         docker push ${IMAGE}
                         docker rmi ${IMAGE} -f 
                         '''
-                         }
+                        
                     // script{
                     //     docker.withRegistry("${DOCKER_REGISTRY}","${CREDENTIAL_REGISTRY}"){
                     
