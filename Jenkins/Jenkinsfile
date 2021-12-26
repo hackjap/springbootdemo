@@ -55,7 +55,7 @@ pipeline {
                 container('kubectl'){
                     sh '''
                         kubectl delete deployment myapp -n test 
-                        kubectl create deployment myapp --image=${IMAGE}
+                        kubectl create deployment myapp --image=${IMAGE} -n test 
                         kubectl get pod 
                     '''
                 }
