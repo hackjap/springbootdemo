@@ -46,7 +46,6 @@ pipeline {
                         sh '''
                         docker login -u jangsp57  -p jspdk2919!
                         docker push ${IMAGE}
-                  
                         '''
                 }
             }
@@ -55,13 +54,15 @@ pipeline {
             steps {
                 container('kubectl'){
                     sh '''
+                        kubectl create deployment --image=${IMAGE}
                         kubectl get pod 
-                        // sh "kubectl apply -n ${namespace} -f ${deployment}"
+
+                    '''
+                }
+                  // sh "kubectl apply -n ${namespace} -f ${deployment}"
 					    // sh "sleep 5"
 					    // sh "kubectl apply -n ${namespace} -f ${service}"
 					    // sh "kubectl apply -n ${namespace} -f ${ingress}"
-                    '''
-                }
             
             }
         }
