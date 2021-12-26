@@ -1,7 +1,4 @@
 pipeline {
-    environment{
-        IMAGE = 'jangsp57/demo-springboot:v2'
-    }
     agent {
         kubernetes {
             yaml """
@@ -33,9 +30,13 @@ spec:
     hostPath:
       path: /etc/hosts
 """
-        }
-    }
+        }   
+    } // End of agent
 
+    environment {
+        IMAGE = 'jangsp57/demo-springboot:v2'
+    }
+    stages { 
         stage('Maven Build') {
             steps {
                 container('maven-jdk-node'){
@@ -43,9 +44,9 @@ spec:
                     sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
                     sh "ls -al ./AdminApi/target"
                     sh "pwd"
+                    }
                 }
             }
-        }
 
         stage('Build Docker Image'){
             steps {
@@ -54,15 +55,16 @@ spec:
                     sh 'ls'
                     sh 'docker build -t ${IMAGE} .'
                     sh 'docker images'
+                    }
                 }
             }
-        }
         
         stage('Push Docker Image') {
             steps {
                 container('docker'){
                     sh 'docker login -u jangsp57 -p jspdk2919!'
                     sh 'docker push ${IMAGE}'
+                    }
                 }
             }
         }
