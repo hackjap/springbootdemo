@@ -35,9 +35,9 @@ spec:
     stages {
         stage('Clone repository') {
             steps {
-                git branch: "develop",
+                git branch: "master",
                 credentialsId: 'github',
-                url: 'https://github.com/hackjap/springboot-demo.git'
+                url: 'https://github.com/hackjap/springbootdemo.git'
                 sh 'ls -al'
                 sh 'pwd'
             }
