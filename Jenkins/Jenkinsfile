@@ -15,18 +15,18 @@ pipeline {
 
     }
     stages { 
-        stage('Maven Build') {
-            steps {
-                container('maven-jdk-node'){
-                    // sh 'mvn -v'
-                    // sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
-                    // sh "mvn clean package"
-                    sh "ls -al ./target"
-                    sh "pwd"
+        // stage('Maven Build') {
+        //     steps {
+        //         container('maven-jdk-node'){
+        //             // sh 'mvn -v'
+        //             // sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
+        //             // sh "mvn clean package"
+        //             sh "ls -al ./target"
+        //             sh "pwd"
                     
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
         stage('Build Docker Image'){
             steps {
                 
@@ -46,7 +46,7 @@ pipeline {
                         sh '''
                         docker login -u jangsp57  -p jspdk2919!
                         docker push ${IMAGE}
-                        // docker rmi ${IMAGE} -f 
+                  
                         '''
                 }
             }
@@ -55,7 +55,7 @@ pipeline {
             steps {
                 container('kubectl'){
                     sh '''
-                        kubectl create deployment --image=${IMAGE}
+                        kubectl get pod 
                         // sh "kubectl apply -n ${namespace} -f ${deployment}"
 					    // sh "sleep 5"
 					    // sh "kubectl apply -n ${namespace} -f ${service}"
