@@ -74,8 +74,8 @@ spec:
                 container('docker'){
                     docker.withRegistry("${DOCKER_REGISTRY}","${CREDENTIAL_REGISTRY}"){
                         sh '''
-                        docker push ${IMAGE}'
-                        docker rmi ${IMAGE}' -f 
+                        docker push ${IMAGE}
+                        docker rmi ${IMAGE} -f 
                         '''
                     }
                 }
