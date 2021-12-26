@@ -19,8 +19,8 @@ spec:
     command:
     - cat
     tty: true
-  - name: kubectl 
-    image: lachlanevenson/k8s-kubectl:latest
+  # - name: kubectl 
+  #   image: lachlanevenson/k8s-kubectl:latest
   volumes:
   - name: dockersock
     hostPath:
