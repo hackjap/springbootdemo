@@ -36,6 +36,8 @@ spec:
     // 환경변수 
     environment {
         IMAGE = 'jangsp57/demo-springboot:v2'
+        BRANCH = 'main'
+
     }
 
     stages { 
@@ -53,10 +55,12 @@ spec:
         stage('Build Docker Image'){
             steps {
                 container('docker'){
-                    sh 'docker --version'
-                    sh 'ls'
-                    sh 'docker build -t ${IMAGE} .'
-                    sh 'docker images'
+                    sh '''
+                        docker --version
+                        ls
+                        docker build -t ${IMAGE} .
+                        docker images
+                    '''
                 }
             }
         }
@@ -64,8 +68,12 @@ spec:
         stage('Push Docker Image') {
             steps {
                 container('docker'){
-                    sh 'docker login -u jangsp57 -p jspdk2919!'
-                    sh 'docker push ${IMAGE}'
+                    sh '''
+                        docker login -u jangsp57 -p jspdk2919!
+                        docker push ${IMAGE}'
+                        docker rmi ${IMAGE}' -f 
+                    '''
+               
                 }
             }
         }
