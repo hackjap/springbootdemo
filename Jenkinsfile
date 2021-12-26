@@ -69,7 +69,7 @@ spec:
             steps {
                 container('docker'){
                     sh 'docker login -u jangsp57 -p jspdk2919!'
-                    sh 'docker push jangsp57/demo-springboot:latest:'
+                    sh 'docker push jangsp57/demo-springboot:latest'
                 }
             }
         }
