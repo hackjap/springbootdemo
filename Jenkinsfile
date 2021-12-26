@@ -30,8 +30,8 @@ spec:
     hostPath:
       path: /etc/hosts
 """
-     }
-    
+        }
+    }
     stages {
         stage('Clone repository') {
             steps {
@@ -72,7 +72,6 @@ spec:
                     sh 'docker push jangsp57/demo-springboot:latest:'
                 }
             }
-
         }
     }
 }
