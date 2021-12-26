@@ -57,7 +57,7 @@ spec:
 
         stage('Build Docker Image'){
             steps {
-                checkout scm
+                // checkout scm
                 container('docker'){
                     sh '''
                         docker --version
