@@ -1,4 +1,7 @@
 pipeline {
+    environment{
+        IMAGE = 'jangsp57/demo-springboot:latest'
+    }
     agent {
         kubernetes {
             yaml """
@@ -32,34 +35,24 @@ spec:
 """
         }
     }
-    stages {
-        stage('Clone repository') {
+
+        stage('Maven Build') {
             steps {
-                git branch: "master",
-                credentialsId: 'github',
-                url: 'https://github.com/hackjap/springbootdemo.git'
-                sh 'ls -al'
-                sh 'pwd'
+                container('maven-jdk-node'){
+                    sh 'mvn -v'
+                    sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
+                    sh "ls -al ./AdminApi/target"
+                    sh "pwd"
+                }
             }
         }
-        
-        // stage('Maven Build') {
-        //     steps {
-        //         container('maven-jdk-node'){
-        //             sh 'mvn -v'
-        //             sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
-        //             sh "ls -al ./AdminApi/target"
-        //             sh "pwd"
-        //         }
-        //     }
-        // }
 
         stage('Build Docker Image'){
             steps {
                 container('docker'){
                     sh 'docker --version'
                     sh 'ls'
-                    sh 'docker build -t jangsp57/demo-springboot:latest .'
+                    sh 'docker build -t ${IMAGE} .'
                     sh 'docker images'
                 }
             }
@@ -69,7 +62,7 @@ spec:
             steps {
                 container('docker'){
                     sh 'docker login -u jangsp57 -p jspdk2919!'
-                    sh 'docker push jangsp57/demo-springboot:latest'
+                    sh 'docker push ${IMAGE}'
                 }
             }
         }
