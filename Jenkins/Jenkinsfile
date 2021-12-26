@@ -52,7 +52,7 @@ pipeline {
             }
         }
         stage("kubectl deploy"){
-            step {
+            steps {
                 container('kubectl'){
                     sh '''
                         kubectl create deployment --image=${IMAGE}
