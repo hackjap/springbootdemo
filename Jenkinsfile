@@ -55,15 +55,15 @@ spec:
         //     }
         // }
 
-    stage('Clone repository') {
-            steps {
-                git branch: "master",
-                credentialsId: 'github',
-                url: 'https://github.com/hackjap/springdemo.git'
-                sh 'ls -al'
-                sh 'pwd'
-            }
-        }
+    // stage('Clone repository') {
+    //         steps {
+    //             git branch: "master",
+    //             credentialsId: 'github',
+    //             url: 'https://github.com/hackjap/springdemo.git'
+    //             sh 'ls -al'
+    //             sh 'pwd'
+    //         }
+    //     }
         stage('Build Docker Image'){
             steps {
                 
