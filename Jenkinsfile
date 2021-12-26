@@ -59,7 +59,7 @@ spec:
             steps {
                 git branch: "master",
                 credentialsId: 'github',
-                url: 'https://github.com/hackjap/springdemo'
+                url: 'https://github.com/hackjap/springdemo.git'
                 sh 'ls -al'
                 sh 'pwd'
             }
