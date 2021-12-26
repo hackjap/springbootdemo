@@ -18,11 +18,14 @@ pipeline {
         stage('Maven Build') {
             steps {
                 container('maven-jdk11-node'){
-                    sh 'mvn -v'
+                    // sh 'mvn -v'
                     // sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
-                    sh "mvn clean package"
-                    sh "ls -al ./${APP}target"
-                    sh "pwd"
+                    // sh "mvn clean package"
+                    script{
+
+                        sh "ls -al ./${APP}target"
+                        sh "pwd"
+                    }
                 }
             }
         }
