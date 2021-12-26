@@ -1,6 +1,6 @@
 pipeline {
     environment{
-        IMAGE = 'jangsp57/demo-springboot:latest'
+        IMAGE = 'jangsp57/demo-springboot:v2'
     }
     agent {
         kubernetes {
