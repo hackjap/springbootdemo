@@ -54,9 +54,8 @@ pipeline {
             steps {
                 container('kubectl'){
                     sh '''
-                        kubectl create deployment --image=${IMAGE}
+                        kubectl create deployment myapp --image=${IMAGE}
                         kubectl get pod 
-
                     '''
                 }
                   // sh "kubectl apply -n ${namespace} -f ${deployment}"
