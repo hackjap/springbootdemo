@@ -31,23 +31,24 @@ spec:
       path: /etc/hosts
 """
         }   
-    } // End of agent
+    } 
 
+    // 환경변수 
     environment {
         IMAGE = 'jangsp57/demo-springboot:v2'
     }
-    
+
     stages { 
-        stage('Maven Build') {
-            steps {
-                container('maven-jdk-node'){
-                    sh 'mvn -v'
-                    sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
-                    sh "ls -al ./AdminApi/target"
-                    sh "pwd"
-                    }
-                }
-            }
+        // stage('Maven Build') {
+        //     steps {
+        //         container('maven-jdk-node'){
+        //             sh 'mvn -v'
+        //             sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
+        //             sh "ls -al ./AdminApi/target"
+        //             sh "pwd"
+        //         }
+        //     }
+        // }
 
         stage('Build Docker Image'){
             steps {
@@ -56,10 +57,10 @@ spec:
                     sh 'ls'
                     sh 'docker build -t ${IMAGE} .'
                     sh 'docker images'
-                    }
                 }
             }
-        
+        }
+    
         stage('Push Docker Image') {
             steps {
                 container('docker'){
@@ -68,5 +69,5 @@ spec:
                 }
             }
         }
-    }
-}
+    }   // End of stages 
+} // End of pipeline
