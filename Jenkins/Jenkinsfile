@@ -46,25 +46,25 @@ pipeline {
                         sh '''
                         docker login -u jangsp57  -p jspdk2919!
                         docker push ${IMAGE}
-                        docker rmi ${IMAGE} -f 
+                        // docker rmi ${IMAGE} -f 
                         '''
                 }
             }
         }
-        // stage("kubectl deploy"){
-        //     steps {
-        //         container('kubectl'){
-        //             sh '''
-        //                 kubectl create deployment --image=${IMAGE}
-        //                 // sh "kubectl apply -n ${namespace} -f ${deployment}"
-		// 			    // sh "sleep 5"
-		// 			    // sh "kubectl apply -n ${namespace} -f ${service}"
-		// 			    // sh "kubectl apply -n ${namespace} -f ${ingress}"
-        //             '''
-        //         }
+        stage("kubectl deploy"){
+            steps {
+                container('kubectl'){
+                    sh '''
+                        kubectl create deployment --image=${IMAGE}
+                        // sh "kubectl apply -n ${namespace} -f ${deployment}"
+					    // sh "sleep 5"
+					    // sh "kubectl apply -n ${namespace} -f ${service}"
+					    // sh "kubectl apply -n ${namespace} -f ${ingress}"
+                    '''
+                }
             
-        //     }
-        // }
+            }
+        }
 
     }   // End of stages 
 } // End of pipeline
