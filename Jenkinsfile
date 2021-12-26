@@ -36,6 +36,7 @@ spec:
     environment {
         IMAGE = 'jangsp57/demo-springboot:v2'
     }
+    
     stages { 
         stage('Maven Build') {
             steps {
@@ -64,7 +65,6 @@ spec:
                 container('docker'){
                     sh 'docker login -u jangsp57 -p jspdk2919!'
                     sh 'docker push ${IMAGE}'
-                    }
                 }
             }
         }
