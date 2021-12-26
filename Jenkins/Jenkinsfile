@@ -51,6 +51,21 @@ pipeline {
                 }
             }
         }
+        stage("kubectl deploy"){
+            step {
+                container('kubectl'){
+                    sh '''
+                        kubectl create deployment --image=${IMAGE}
+                        // sh "kubectl apply -n ${namespace} -f ${deployment}"
+					    // sh "sleep 5"
+					    // sh "kubectl apply -n ${namespace} -f ${service}"
+					    // sh "kubectl apply -n ${namespace} -f ${ingress}"
+                    '''
+                }
+            
+            }
+        }
+
     }   // End of stages 
 } // End of pipeline
   
