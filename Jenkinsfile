@@ -1,47 +1,77 @@
 pipeline {
-    agent any
-    podTemplate(
-        label: label,
-        container: [
-            containerTemplate(name: "docker", image: "docker:latest",ttyEnabled:true,command:"cat"),
-            containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true) 
-        ],
-        // mount 
-        volume: [
-            hostPathVolume(hostPath:"/var/run/docker.sock", mountPath: "/var/run/docker/sock")
-        ]
-    )
+    agent {
+        kubernetes {
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    some-label: pod
+spec:
+  containers:
+  - name: maven-jdk8-node
+    image: maven:3.8.4-openjdk-8-slim
+    command:
+    - cat
+    tty: true
+  - name: docker
+    image: docker:latest 
+    volumeMounts:
+    - name: dockersock
+      mountPath: "/var/run/docker.sock"
+    command:
+    - cat
+    tty: true
+  volumes:
+  - name: dockersock
+    hostPath:
+      path: /var/run/docker.sock
+  - name: hosts
+    hostPath:
+      path: /etc/hosts
+"""
+        }
+    }
     stages {
-        // stage('mvn build') {
+        stage('Clone repository') {
+            steps {
+                git branch: "develop",
+                credentialsId: 'github',
+                url: 'https://github.com/hackjap/springboot-demo.git'
+                sh 'ls -al'
+                sh 'pwd'
+            }
+        }
+        
+        // stage('Maven Build') {
         //     steps {
-        //         withMaven(globalMavenSettingsConfig: '2d1aa476-3d23-466f-9665-4a436e7db775', jdk: 'jdk-11', maven: 'maven 3.6.3', mavenSettingsConfig: 'd7d20abf-834c-4aef-bce6-463c51b5a917') {
-            
-        //             sh 'mvn clean package'
+        //         container('maven-jdk-node'){
+        //             sh 'mvn -v'
+        //             sh "mvn -P dev -f ./AdminApi/pom.xml clean package"
+        //             sh "ls -al ./AdminApi/target"
+        //             sh "pwd"
         //         }
         //     }
         // }
-        stage("get source"){
-            git branch: 'main', url: 'https://github.com/hackjap/springboot-demo.git'
-        }
-        
-        stage('docker build') {
+
+        stage('Build Docker Image'){
             steps {
-                script {
-                    container("docker"){
-                        docker.withRegistry('https://registry.hub.docker.com', 'publicdocker'){
-                            // def iamge = docker.build("jangsp57/demo-springboot:v2")
-                            // image.push();
-                            sh """
-                                pwd
-                                ls
-                                docker build -t jangsp57/demo-springboot:v2 .
-                                docker push jangsp57/demo-springboot:v2
-                            """
-                        }
-                    }
+                container('docker'){
+                    sh 'docker --version'
+                    sh 'ls'
+                    sh 'docker build -t jangsp57/demo-springboot:latest .'
+                    sh 'docker images'
                 }
             }
         }
+        
+        stage('Push Docker Image') {
+            steps {
+                container('docker'){
+                    sh 'docker login -u jangsp57 -p jspdk2919!'
+                    sh 'docker push jangsp57/demo-springboot:latest:'
+            }
+        }
+
     }
 }
-  
