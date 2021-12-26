@@ -35,9 +35,12 @@ spec:
 
     // 환경변수 
     environment {
+        
         IMAGE = 'jangsp57/demo-springboot:v2'
         BRANCH = 'main'
-
+        APP = 'AdminApi'
+        DOCKER_REGISTRY = 'https://registry.dockerhub.com' 
+        CREDENTIAL_REGISTRY = 'publicdocker'
     }
 
     stages { 
@@ -54,6 +57,7 @@ spec:
 
         stage('Build Docker Image'){
             steps {
+                checkout scm
                 container('docker'){
                     sh '''
                         docker --version
@@ -68,12 +72,12 @@ spec:
         stage('Push Docker Image') {
             steps {
                 container('docker'){
-                    sh '''
-                        docker login -u jangsp57 -p jspdk2919!
+                    docker.withRegistry("${DOCKER_REGISTRY}","${CREDENTIAL_REGISTRY}"){
+                        sh '''
                         docker push ${IMAGE}'
                         docker rmi ${IMAGE}' -f 
-                    '''
-               
+                        '''
+                    }
                 }
             }
         }
