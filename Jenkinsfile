@@ -81,13 +81,13 @@ spec:
         stage('Push Docker Image') {
             steps {
                 container('docker'){
-                    // docker.withRegistry("${DOCKER_REGISTRY}","${CREDENTIAL_REGISTRY}"){
+                     docker.withRegistry("${DOCKER_REGISTRY}","${CREDENTIAL_REGISTRY}"){
+                        // docker login -u jangsp57  -p jspdk2919!
                         sh '''
-                        docker login -u jangsp57  -p jspdk2919!
                         docker push ${IMAGE}
                         docker rmi ${IMAGE} -f 
                         '''
-                    // }
+                     }
                 }
             }
         }
